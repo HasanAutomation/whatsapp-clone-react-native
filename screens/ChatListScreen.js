@@ -4,8 +4,11 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 const ChatListScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Chat List Screenlorem20jhjhjhjhjhjhbjhb</Text>
-      <Button title='switch' onPress={() => navigation.navigate('Setting')} />
+      <Text>Chat List Fuck</Text>
+      <Button
+        title='switch'
+        onPress={() => navigation.navigate('ChatSettings')}
+      />
     </View>
   );
 };
