@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   Button,
   ImageBackground,
+  KeyboardAvoidingView,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -18,32 +20,47 @@ const { blue, lighteGrey } = colors;
 
 const ChatScreen = ({ navigation }) => {
   const [messageText, setMessageText] = useState('');
+
+  const sendMessage = useCallback(() => {
+    setMessageText('');
+  }, [messageText]);
+
   return (
     <SafeAreaView edges={['right', 'left', 'bottom']} style={styles.container}>
-      <ImageBackground
-        style={styles.imageBackground}
-        source={imageBackground}
-      ></ImageBackground>
-      <View style={styles.inputContainer}>
-        <TouchableOpacity style={styles.mediaButton}>
-          <Feather name='plus' size={24} color={blue} />
-        </TouchableOpacity>
-        <TextInput
-          style={styles.textBox}
-          value={messageText}
-          onChangeText={(text) => setMessageText(text)}
-        />
-        {/* Toggle the camera and send button */}
-        {messageText ? (
+      <KeyboardAvoidingView
+        style={styles.screen}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        keyboardVerticalOffset={100}
+      >
+        <ImageBackground
+          style={styles.imageBackground}
+          source={imageBackground}
+        ></ImageBackground>
+        <View style={styles.inputContainer}>
           <TouchableOpacity style={styles.mediaButton}>
-            <Feather name='send' size={24} color={blue} />
+            <Feather name='plus' size={24} color={blue} />
           </TouchableOpacity>
-        ) : (
-          <TouchableOpacity style={styles.mediaButton}>
-            <Feather name='camera' size={24} color={blue} />
-          </TouchableOpacity>
-        )}
-      </View>
+          <TextInput
+            style={styles.textBox}
+            value={messageText}
+            onSubmitEditing={sendMessage}
+            onChangeText={(text) => setMessageText(text)}
+          />
+          {/* Toggle the camera and send button */}
+          {messageText ? (
+            <TouchableOpacity
+              onPress={sendMessage}
+              style={{ ...styles.mediaButton, ...styles.sendButton }}
+            >
+              <Feather name='send' size={20} color={'white'} />
+            </TouchableOpacity>
+          ) : (
+            <TouchableOpacity style={styles.mediaButton}>
+              <Feather name='camera' size={24} color={blue} />
+            </TouchableOpacity>
+          )}
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -66,6 +83,13 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 10,
     height: 50,
+  },
+  screen: {
+    flex: 1,
+  },
+  sendButton: {
+    backgroundColor: blue,
+    borderRadius: 50,
   },
   textBox: {
     flex: 1,
