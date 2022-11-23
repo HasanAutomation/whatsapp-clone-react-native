@@ -4,10 +4,16 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 const ChatListScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text>Chat List Fuck</Text>
+      <Text
+        style={{
+          fontFamily: 'black',
+        }}
+      >
+        Chat List Fuck
+      </Text>
       <Button
         title='switch'
-        onPress={() => navigation.navigate('ChatSettings')}
+        onPress={() => navigation.navigate('ChatScreen')}
       />
     </View>
   );
