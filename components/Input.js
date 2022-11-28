@@ -5,12 +5,19 @@ import colors from '../constants/colors';
 
 const Input = ({
   label,
+  id,
   iconPack: Icon,
   icon,
   iconSize = 24,
   error,
+  onInputChanged,
   iconColor = 'black',
+  ...props
 }) => {
+  const onChangeText = (text) => {
+    onInputChanged(id, text);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -23,11 +30,15 @@ const Input = ({
             style={styles.icon}
           />
         )}
-        <TextInput style={styles.input} />
+        <TextInput
+          {...props}
+          onChangeText={onChangeText}
+          style={styles.input}
+        />
       </View>
       {error && (
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>{error}</Text>
+          <Text style={styles.errorText}>{error[0]}</Text>
         </View>
       )}
     </View>
