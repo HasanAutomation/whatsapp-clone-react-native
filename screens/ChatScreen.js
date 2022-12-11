@@ -1,11 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import {
-  Button,
   ImageBackground,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
-  Text,
   TextInput,
   TouchableOpacity,
   View,
