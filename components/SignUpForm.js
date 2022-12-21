@@ -69,7 +69,7 @@ const SignUpForm = (props) => {
         id='firstName'
         onInputChanged={inputChangeHandler}
         label='First Name'
-        value={formState.inputValues.firstName}
+        initialValue={formState.inputValues.firstName}
         iconPack={FontAwesome}
         icon='user-o'
         error={formState.inputValidities['firstName']}
@@ -79,7 +79,7 @@ const SignUpForm = (props) => {
         onInputChanged={inputChangeHandler}
         label='Last Name'
         iconPack={FontAwesome}
-        value={formState.inputValues.lastName}
+        initialValue={formState.inputValues.lastName}
         icon='user-o'
         error={formState.inputValidities['lastName']}
       />
@@ -87,7 +87,7 @@ const SignUpForm = (props) => {
         id='email'
         onInputChanged={inputChangeHandler}
         label='Email'
-        value={formState.inputValues.email}
+        initialValue={formState.inputValues.email}
         iconPack={Feather}
         keyboardType='email-address'
         icon='mail'
@@ -98,7 +98,7 @@ const SignUpForm = (props) => {
         secureTextEntry
         id='password'
         onInputChanged={inputChangeHandler}
-        value={formState.inputValues.password}
+        initialValue={formState.inputValues.password}
         label='Password'
         iconPack={Feather}
         icon='lock'
