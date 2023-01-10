@@ -1,6 +1,7 @@
 import {
   ActivityIndicator,
   Image,
+  Platform,
   StyleSheet,
   TouchableOpacity,
   View,
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   image: {
     borderWidth: 1,
     borderColor: colors.grey,
-    borderRadius: '50%',
+    borderRadius: Platform.OS === 'ios' ? '50%' : 40,
   },
   editIconContainer: {
     position: 'absolute',
