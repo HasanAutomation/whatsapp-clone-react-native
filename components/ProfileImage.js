@@ -1,22 +1,69 @@
-import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import colors from '../constants/colors';
-import { launchImagePicker } from '../utils/imagePickerHelper';
+import userImage from '../assets/images/userImage.jpeg';
+import {
+  launchImagePicker,
+  uploadImageAsync,
+} from '../utils/imagePickerHelper';
+import { useState } from 'react';
+import { updateSignedInUserData } from '../utils/actions/authActions';
+import { useDispatch } from 'react-redux';
+import { updateLoggedInUserData } from '../store/authSlice';
 
 const ProfileImage = (props) => {
-  const pickImage = () => {
-    launchImagePicker();
+  const [isUploading, setIsUploading] = useState(false);
+  const dispatch = useDispatch();
+  const source = props?.uri ? { uri: props.uri } : userImage;
+  const userId = props.userId;
+
+  const [image, setImage] = useState(source);
+
+  const pickImage = async () => {
+    try {
+      const tempUri = await launchImagePicker();
+      if (!tempUri) return;
+      setIsUploading(true);
+      const uploadedUri = await uploadImageAsync(tempUri);
+
+      if (!uploadedUri) throw new Error('Could not upload');
+      const newData = { profilePicture: uploadedUri };
+      await updateSignedInUserData(userId, newData);
+      dispatch(updateLoggedInUserData({ newData }));
+      setImage({ uri: uploadedUri });
+    } catch (err) {
+      alert(err.message);
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   return (
     <TouchableOpacity onPress={pickImage}>
-      <Image
-        style={{
-          ...styles.image,
-          ...{ width: props.size, height: props.size },
-        }}
-        source={require('../assets/images/userImage.jpeg')}
-      />
+      {isUploading ? (
+        <View
+          height={props.size}
+          width={props.size}
+          style={styles.loadingContainer}
+        >
+          <ActivityIndicator size='small' color={colors.primary} />
+        </View>
+      ) : (
+        <Image
+          style={{
+            ...styles.image,
+            ...{ width: props.size, height: props.size },
+          }}
+          source={image}
+        />
+      )}
+
       <View style={styles.editIconContainer}>
         <FontAwesome name='pencil' size={15} />
       </View>
@@ -37,6 +84,10 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lighteGrey,
     borderRadius: 20,
     padding: 8,
+  },
+  loadingContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
