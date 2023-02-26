@@ -26,6 +26,8 @@ const ProfileImage = (props) => {
 
   const [image, setImage] = useState(source);
 
+  const showEdit = props.showEdit ?? true;
+
   const pickImage = async () => {
     try {
       const tempUri = await launchImagePicker();
@@ -45,8 +47,10 @@ const ProfileImage = (props) => {
     }
   };
 
+  const Container = showEdit ? TouchableOpacity : View;
+
   return (
-    <TouchableOpacity onPress={pickImage}>
+    <Container onPress={pickImage}>
       {isUploading ? (
         <View
           height={props.size}
@@ -64,11 +68,12 @@ const ProfileImage = (props) => {
           source={image}
         />
       )}
-
-      <View style={styles.editIconContainer}>
-        <FontAwesome name='pencil' size={15} />
-      </View>
-    </TouchableOpacity>
+      {showEdit && !isUploading && (
+        <View style={styles.editIconContainer}>
+          <FontAwesome name='pencil' size={15} />
+        </View>
+      )}
+    </Container>
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -10,9 +10,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Feather } from '@expo/vector-icons';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import imageBackground from '../assets/images/droplet.jpeg';
 import colors from '../constants/colors';
+import CustomHeaderButton from '../components/CustomHeaderButton';
 
 const { blue, lighteGrey } = colors;
 
@@ -22,6 +24,26 @@ const ChatScreen = ({ navigation }) => {
   const sendMessage = useCallback(() => {
     setMessageText('');
   }, [messageText]);
+
+  const handleCreate = useCallback(() => {
+    navigation.navigate('NewChat');
+  }, []);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
+            <Item
+              title='New Chat'
+              iconName='create-outline'
+              onPress={handleCreate}
+            />
+          </HeaderButtons>
+        );
+      },
+    });
+  }, []);
 
   return (
     <SafeAreaView edges={['right', 'left', 'bottom']} style={styles.container}>

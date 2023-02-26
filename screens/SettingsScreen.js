@@ -45,8 +45,6 @@ const SettingsScreen = (props) => {
 
   const inputChangeHandler = useCallback(
     (inputId, inputValue) => {
-      console.log('INPUT', inputId, inputValue);
-
       const validationResult = validateInput(inputId, inputValue);
       dispatchFormState({ inputId, validationResult, inputValue });
     },

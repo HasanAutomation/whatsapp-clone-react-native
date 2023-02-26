@@ -9,7 +9,7 @@ import { ActivityIndicator, Alert } from 'react-native';
 import colors from '../constants/colors';
 import { useDispatch } from 'react-redux';
 
-const isTestMode = true;
+const isTestMode = false;
 
 const input = isTestMode
   ? {
