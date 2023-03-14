@@ -2,19 +2,19 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 const PageContainer = (props) => {
-  return (
-    <View style={{ ...styles.container, ...props.style }}>
-      {props.children}
-    </View>
-  );
+   return (
+      <View style={{ ...styles.container, ...props.style }}>
+         {props.children}
+      </View>
+   );
 };
 
 export default PageContainer;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingHorizontal: 20,
-    backgroundColor: 'white',
-  },
+   container: {
+      flex: 1,
+      paddingHorizontal: 20,
+      backgroundColor: 'white',
+   },
 });

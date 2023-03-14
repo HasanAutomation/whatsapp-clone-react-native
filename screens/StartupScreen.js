@@ -8,41 +8,41 @@ import { authenticate, setDidTryAutoLogin } from '../store/authSlice';
 import { getUserData } from '../utils/actions/userActions';
 
 const StartUpScreen = (props) => {
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const tryLogin = async () => {
-      const storedAuthInfo = await AsyncStorage.getItem('userData');
+   useEffect(() => {
+      const tryLogin = async () => {
+         const storedAuthInfo = await AsyncStorage.getItem('userData');
 
-      if (!storedAuthInfo) {
-        dispatch(setDidTryAutoLogin());
-        return;
-      }
-      const {
-        token,
-        userId,
-        expiryDate: expiryDateString,
-      } = JSON.parse(storedAuthInfo);
+         if (!storedAuthInfo) {
+            dispatch(setDidTryAutoLogin());
+            return;
+         }
+         const {
+            token,
+            userId,
+            expiryDate: expiryDateString,
+         } = JSON.parse(storedAuthInfo);
 
-      const expiryDate = new Date(expiryDateString);
+         const expiryDate = new Date(expiryDateString);
 
-      if (expiryDate <= new Date() || !token || !userId)
-        return dispatch(setDidTryAutoLogin());
+         if (expiryDate <= new Date() || !token || !userId)
+            return dispatch(setDidTryAutoLogin());
 
-      const userData = await getUserData(userId);
+         const userData = await getUserData(userId);
 
-      if (!userData) return dispatch(setDidTryAutoLogin());
+         if (!userData) return dispatch(setDidTryAutoLogin());
 
-      dispatch(authenticate({ token, userData }));
-    };
-    tryLogin();
-  }, [dispatch]);
+         dispatch(authenticate({ token, userData }));
+      };
+      tryLogin();
+   }, [dispatch]);
 
-  return (
-    <View style={commonStyles.center}>
-      <ActivityIndicator size='large' color={colors.primary} />
-    </View>
-  );
+   return (
+      <View style={commonStyles.center}>
+         <ActivityIndicator size='large' color={colors.primary} />
+      </View>
+   );
 };
 
 export default StartUpScreen;
